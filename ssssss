@@ -1,0 +1,14 @@
+[33m019244b[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m Change the name of the Create acton to Save. In Save action check the Id of the customer, if does not exists, add to the context. If exists in the contect change the parameters. Because all changes are based on the Id of the customer, add hidden fild in the CustomerForm view for the Id.
+[33m175fd02[m Change the link for each customer in the CustomerForm view instead Delete, change to Edit view. Create Edit action, get the customer with id from the DB. Chech if the customer exist in the DB or not. Change the name of New View and newCustomerViewModels to CreateForm and CreateFormViewModels.
+[33m02e567f[m Add the customers to the Database, save the changes, and redirected the customer to the Index Action of CustomersController
+[33m9dc2f44[m Add a button to the NEWCustomer view form. Create new method named Create, that is model binded with the NewCustomerViewModel, whic is the type of model of the view.
+[33m9bfa611[m Add dropdown list to add memberskip type of the DB. First add DbSet to IdentityModels, then initialize it in the New method. Create NewCustomerViewModes and pass it into the view of NEW method
+[33m946f3f5[m Add data annotation to Birthdate property of customer class
+[33m3fdfc32[m Create an action to create a form to add a customer. Add new Action to CustomersController. Add NEW View for adding new customers, with labels and checkbox.
+[33m7d2eef3[m Add Details view for movies.
+[33m9ea71ea[m Add details method in MoviesController.Add link on the name of the movies in the table to details
+[33mdc1e724[m Add new Genre table into Index view of Movies. Use of Eager loading, load the Movies and Genres together, with Include(expression that determinates the target property) method in Index()method of MoviesController
+[33m50be5d7[m Add new Genre.cs file. Create migration and populate reference data for genre trought migration. Add new properties to Movie.cs class. Also Get movies from the database by initializing DbContext in moviesController
+[33mba59ab7[m Add new Genre.cs file. Create migration and populate reference data for genre trought migration. Add new properties to Movie.cs class. Also Get movies from the database by initializing DbContext in moviesController
+[33mb7dc364[m Recreate the InitialModel migration because DbSet for customer is set up
+[33md81689b[m Add new DbSet property for customers in IdentitiModel.cs

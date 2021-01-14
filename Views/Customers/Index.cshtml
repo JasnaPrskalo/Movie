@@ -1,0 +1,100 @@
+﻿@model IEnumerable<MovieShop.Models.Customer>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+
+@*@if (!Model.Any())
+    {
+        <p>We don't have any customers yet!</p>
+    }
+    else
+    {
+        Because we are not suppliyng the model anymore, do not need this code
+    }*@
+
+<table id="customers" class="table, table-bordered table-hover">
+    @*Leave this table structure as a placehodler for DataTable*@
+    <thead>
+        <tr>
+            <th>Customers</th>
+            <th>Membership Type</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*Because we are using our API for rendering this table, do not need this foreach block anymore*@
+        @*@foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)</td>
+                    <td>@customer.MembershipType.Name</td>
+                    <td>
+                        <button data-customer-id="@customer.Id" class="btn-link js-delete">Delete</button>
+                    </td>
+                </tr>
+            }*@
+    </tbody>
+</table>
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#customers").DataTable({
+                ajax: {
+                    url: "/api/customers",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, customer) {
+                            return "<a href+'/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
+                        }
+                    },
+                    {
+                        data: "name"
+                    },
+                    {
+                        data: "id", //use this in rendering data attribute to the button
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-customer-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+            //1. Reference to the DELETE button with second class js-delete, and giving the table an ID id="Customers"
+            //$("#customers .js-delete").on("click", function () { //wuth thois line for each delete btn we will have separate handler function in the memory
+            $("#customers").on("click", ".js-delete", function () { //Adding "js-delete" as filter as secont argument, no metter how customers on the page, will have only one clich hendler on all delete btns. Hendler is hooked to the selector $("#customers")
+                var button = $(this); /*Refetence to the button*/
+
+                bootbox.confirm("Are you sure you want to delete this customer?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/customers/" + button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+                                button.parents("tr").remove(); /*4.Remove the table row that includes the customer.Navigate to DOM tree till we get to the <tr> and the n remove it */
+                            }
+                        });
+                    }
+                });
+                //This is replaced with the bootbox
+
+                //if (confirm("Are you shure that you want to delete this customer?")) {  /*2.If this function returns true, call API using jQuery ajax*/
+                //    $.ajax({
+                //        url: "/api/customers/" + button.attr("data-customer-id"),
+                //        method: "DELETE",
+                //        success: function () {
+                //            button.parents("tr").remove(); /*4.Remove the table row that includes the customer.Navigate to DOM tree till we get to the <tr> and the n remove it */
+                //        }
+                //    });
+                //}
+            });
+        });
+
+    </script>
+}
